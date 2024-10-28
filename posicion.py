@@ -18,6 +18,9 @@ class Posicion:
     def getY(self):
         return self.y
     
+    def getPosicion(self):
+        return [self.x,self.y]
+    
     def getAliasEsbirro(self):
         if self.y == 0:
             if self.x ==1:
