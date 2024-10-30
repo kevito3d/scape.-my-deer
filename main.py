@@ -3,7 +3,7 @@ from jugador_reno import JugadorReno
 from jugador_santa import JugadorSanta    
 from utils import limpiar_terminal
 def main():
-    rondas = 10
+    rondas = 2
     tab = Tablero(rondas)
     reno = JugadorReno(tab)
     santa = JugadorSanta(tab)
@@ -13,6 +13,7 @@ def main():
     reno.posicionar_equipo()
     limpiar_terminal()
     santa.posicionar_equipo()
+    limpiar_terminal()
     while True:
         turno = tab.get_turno()
 

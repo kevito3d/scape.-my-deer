@@ -225,7 +225,7 @@ class Tablero:
             return True
         if self.reno_inconciente:
             return True
-        if self.turno > self.rondas:
+        if self.turno >= self.rondas:
             return True
         return False
 
@@ -322,7 +322,7 @@ class Tablero:
             print("la huida de Rudolf ha fracasado y seguirá esclavizado cada navidad. Felicidades, Santa Claus!")
         elif self.reno_inconciente:
             print("Rudolf... Santa Claus te ha golpeado y has quedado inconciente. Tu huida ha fracasado")
-        elif self.turno > self.rondas:
+        elif self.turno >= self.rondas:
             print("Se han agotado los turnos y Rudolf ha escapado, arruinando así la navidad! Disfruta de tu libertad!")
         else:
             print(f"Todavía no hay ganador. Rondas restantes: {self.rondas -self.turno}")
