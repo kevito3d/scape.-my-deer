@@ -51,6 +51,8 @@ class Posicion:
             if self.y ==3:
                 return 5
     def getAliasReno(self):
+        if self.x<1 or self.x>3 or self.y<1 or self.y>3:
+            return -1
         if self.y ==1:
             if self.x ==1:
                 return 0
