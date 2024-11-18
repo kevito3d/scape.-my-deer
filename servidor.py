@@ -106,7 +106,7 @@ def jugar_partida(partida:Partida): # Gestión de la partida
         # buferNew = partida.getUsuario2().recivirData()
         # print(buferNew)
     
-    print(partida.tablero)
+    # print(partida.tablero)
     tablero = partida.tablero
     santa = partida.getUsuario2() if int_ran==1 else partida.getUsuario1()
     rudolph = partida.getUsuario1() if int_ran==1 else partida.getUsuario2()
@@ -138,7 +138,7 @@ def jugar_partida(partida:Partida): # Gestión de la partida
         if victoriaR or victoriaS:
             partidas.remove(partida)
             break
-        print(tablero)
+        # print(tablero)
 
 
 
@@ -157,7 +157,7 @@ def servidor(puerto): # Configuración y lanzamiento del servidor
     sock.listen(1)
     while True:
         connection , client_address = sock.accept()
-        print(connection)
+        # print(connection)
         hilo = threading.Thread(target=bienvenida_usuario, args=(connection, client_address))
         hilo.start()
 
