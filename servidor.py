@@ -5,6 +5,8 @@ from partida import Partida
 from tablero import Tablero
 import threading
 from typing import List, Tuple, Optional
+import random
+
 partidas :List[Partida] = []
 
 def verifica_si_partida_existe(nueva)-> Tuple[bool,Optional[Partida]]:
@@ -14,8 +16,6 @@ def verifica_si_partida_existe(nueva)-> Tuple[bool,Optional[Partida]]:
         if nueva == nombre:
             return [True, partida]
     return [False,None]
-
-
 
 def bienvenida_usuario(clt_socket, clt_addr): # Emparejamiento de clientes y creación de partidas
     global partidas
@@ -62,17 +62,85 @@ def bienvenida_usuario(clt_socket, clt_addr): # Emparejamiento de clientes y cre
         usuario.datatoSend(usuario1.getNombre())
         thread = threading.Thread(target=jugar_partida, args=(partida,))
         thread.start()
-
-    
-
-
-
-
-    
-
+    usuario.recivirData()
 
 def jugar_partida(partida:Partida): # Gestión de la partida
-    print("deberia comensar a jugar ya qui deberia tener a los dos jugadores")
+    # tirar moneda
+    int_ran = random.randint(1,2)
+    # int_ran = 1
+
+    if int_ran == 1:
+        # usuario1 es rudolph
+        # usuario2 es santa
+        partida.getUsuario1().datatoSend("RUDOLPH")
+        partida.getUsuario2().datatoSend("SANTA")
+
+        partida.getUsuario1().recivirData() #para limpiear el bufer
+        tablero = partida.getUsuario2().recivirData()
+        partida.getUsuario1().datatoSend(tablero)
+        
+        tablero = partida.getUsuario1().recivirData()
+        partida.getUsuario2().datatoSend(tablero)
+
+        partida.tablero.actualizar(tablero)
+        # partida.setTablero(tablero)
+        # buferNew = partida.getUsuario1().recivirData()
+        # print(buferNew)
+
+        
+    else:
+        # usuario1 el santa
+        # usuario2 es rudolph
+        partida.getUsuario1().datatoSend("SANTA")
+        partida.getUsuario2().datatoSend("RUDOLPH")
+
+        partida.getUsuario2().recivirData() #para limpiear el bufer
+        tablero = partida.getUsuario1().recivirData()
+        partida.getUsuario2().datatoSend(tablero)
+
+        tablero = partida.getUsuario2().recivirData()
+        partida.getUsuario1().datatoSend(tablero)
+
+        partida.tablero.actualizar(tablero)
+
+        # buferNew = partida.getUsuario2().recivirData()
+        # print(buferNew)
+    
+    print(partida.tablero)
+    tablero = partida.tablero
+    santa = partida.getUsuario2() if int_ran==1 else partida.getUsuario1()
+    rudolph = partida.getUsuario1() if int_ran==1 else partida.getUsuario2()
+
+    while True:
+        turno = tablero.get_turno()
+        if turno % 2 !=0:
+            new_tab = rudolph.recivirData()
+            new_tab.turno = turno
+            tablero.actualizar(new_tab)
+            tablero.aumentar_turno()
+            santa.datatoSend(tablero)
+            new_tab = santa.recivirData()
+            tablero.actualizar(new_tab)
+            # tablero.aumentar_turno()
+            rudolph.datatoSend(tablero)
+        else:
+            new_tab = santa.recivirData()
+            new_tab.turno = turno
+            tablero.actualizar(new_tab)
+            tablero.aumentar_turno()
+            rudolph.datatoSend(tablero)
+            new_tab = rudolph.recivirData()
+            tablero.actualizar(new_tab)
+            # tablero.aumentar_turno()
+            santa.datatoSend(tablero)
+        victoriaR=rudolph.recivirData()
+        victoriaS=santa.recivirData()
+        if victoriaR or victoriaS:
+            partidas.remove(partida)
+            break
+        print(tablero)
+
+
 
 
 def servidor(puerto): # Configuración y lanzamiento del servidor

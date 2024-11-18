@@ -22,7 +22,7 @@ class Usuario():
 
     def recivirData(self, converToInt = False):
         try:
-            data = self.connection.recv(1024) 
+            data = self.connection.recv(4096) 
             data_unpickle = pickle.loads(data)
             if converToInt:
                 return int(data_unpickle)

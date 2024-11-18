@@ -8,7 +8,7 @@ def main():
     reno = JugadorReno(tab)
     santa = JugadorSanta(tab)
     
-    tab.mostrar(False)
+    tab.mostrar(True)
 
     reno.posicionar_equipo()
     limpiar_terminal()
@@ -41,7 +41,7 @@ def main():
         limpiar_terminal()
         victoria = tab.hay_victoria()
         if victoria:
-            tab.mostrar(True)
+            tab.mostrar(False)
         tab.mostrar_estado()
         if victoria:
             input("La partida ha terminado. Pulsa intro para terminar la aplicación")

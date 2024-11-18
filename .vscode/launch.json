@@ -9,10 +9,10 @@
           "type": "debugpy",
           "request": "launch",
           "program": "${workspaceFolder}/servidor.py",
-          // "program": "${workspaceFolder}/client.py",
+          // "program": "${workspaceFolder}/cliente.py",
           "console": "integratedTerminal",
           "args": ["1234"],
-          // "args": ["127.0.0.1","1234",  ]
+          // "args": ["127.0.0.1","1234"],
           "justMyCode": false // Añadir o modificar esta línea
       }
   ]

@@ -15,7 +15,20 @@ class Tablero:
     fil = 5
     col =5
     reno_inconciente = False
+
+    def setTurno  (self, turno):
+        self.turno = turno
     
+    def actualizar(self, otro_tablero:'Tablero'):
+        self.turno = otro_tablero.turno
+        self.esbirros = [Posicion(e.x, e.y) for e in otro_tablero.esbirros]
+        self.reno = Posicion(otro_tablero.reno.x, otro_tablero.reno.y)
+        self.regalo = Posicion(otro_tablero.regalo.x, otro_tablero.regalo.y)
+        # self.rondas = otro_tablero.rondas
+        # self.fil = otro_tablero.fil
+        # self.col = otro_tablero.col
+        self.reno_inconciente = otro_tablero.reno_inconciente
+    def __repr__(self): return f"Tablero(esbirros={self.esbirros})"
     def __init__(self, rondas ):
         self.rondas=rondas
 
@@ -51,9 +64,8 @@ class Tablero:
         # if numero!=0 or numero != 1:
         #     return False
         self.esbirros[numero] = Posicion(x,y)
-        return True
-    
-    def mostrar (self, reno:bool):
+    def __repr__(self): return (f"Tablero(turno={self.turno}, esbirros={self.esbirros}, " f"reno={self.reno}, regalo={self.regalo}, rondas={self.rondas}, " f"fil={self.fil}, col={self.col}, reno_inconciente={self.reno_inconciente})")
+    def mostrar (self, ocultar_renos:bool):
             # for y in range(5):
             #     for x in range(5):
             #         if self.existeEsbirro(x,y):
@@ -78,10 +90,10 @@ class Tablero:
                     print(" "  + " "*3, end="")  # Lateral izquierdo
                 pared = " " if y==0 else "│" 
                 for x in range(self.col - 1):
-                    if reno and self.existeReno(x=x+1,y=y) and self.reno_inconciente:
+                    if ocultar_renos and self.existeReno(x=x+1,y=y) and self.reno_inconciente:
                         print(pared + INCONSCIENTE+" ", end="")  # Lados internos
 
-                    elif reno and self.existeReno(x=x+1,y=y):
+                    elif ocultar_renos and self.existeReno(x=x+1,y=y):
                         print(pared + RUDOLPH+" ", end="")  # Lados internos
 
                     elif self.existeRegalo(x=x+1,y=y):
@@ -221,11 +233,13 @@ class Tablero:
         self.reno.setY(nueva_pos[1])
 
     def hay_victoria(self):
+        print("turno: ", end="")
+        print(self.turno)
         if self.is_esbirros_atrapan_reno():
             return True
         if self.reno_inconciente:
             return True
-        if self.turno >= self.rondas:
+        if self.turno > self.rondas:
             return True
         return False
 
@@ -322,7 +336,7 @@ class Tablero:
             print("la huida de Rudolf ha fracasado y seguirá esclavizado cada navidad. Felicidades, Santa Claus!")
         elif self.reno_inconciente:
             print("Rudolf... Santa Claus te ha golpeado y has quedado inconciente. Tu huida ha fracasado")
-        elif self.turno >= self.rondas:
+        elif self.turno > self.rondas:
             print("Se han agotado los turnos y Rudolf ha escapado, arruinando así la navidad! Disfruta de tu libertad!")
         else:
             print(f"Todavía no hay ganador. Rondas restantes: {self.rondas -self.turno}")

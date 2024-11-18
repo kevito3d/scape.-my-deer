@@ -5,7 +5,6 @@ class Posicion:
     def __init__(self, x,y):
         self.x = x
         self.y = y
-        
     def setX(self, x):
         self.x = x
         
@@ -20,7 +19,7 @@ class Posicion:
     
     def getPosicion(self):
         return [self.x,self.y]
-    
+    def __repr__(self): return f"Posicion(x={self.x}, y={self.y})"
     def getAliasEsbirro(self):
         if self.y == 0:
             if self.x ==1:
