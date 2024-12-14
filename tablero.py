@@ -15,6 +15,7 @@ class Tablero:
     fil = 5
     col =5
     reno_inconciente = False
+    ganador = str
 
     def setTurno  (self, turno):
         self.turno = turno
@@ -90,10 +91,10 @@ class Tablero:
                     print(" "  + " "*3, end="")  # Lateral izquierdo
                 pared = " " if y==0 else "│" 
                 for x in range(self.col - 1):
-                    if ocultar_renos and self.existeReno(x=x+1,y=y) and self.reno_inconciente:
+                    if self.existeReno(x=x+1,y=y) and self.reno_inconciente:
                         print(pared + INCONSCIENTE+" ", end="")  # Lados internos
 
-                    elif ocultar_renos and self.existeReno(x=x+1,y=y):
+                    elif not ocultar_renos and self.existeReno(x=x+1,y=y):
                         print(pared + RUDOLPH+" ", end="")  # Lados internos
 
                     elif self.existeRegalo(x=x+1,y=y):
@@ -236,10 +237,13 @@ class Tablero:
         print("turno: ", end="")
         print(self.turno)
         if self.is_esbirros_atrapan_reno():
+            self.ganador="Santa"
             return True
         if self.reno_inconciente:
+            self.ganador="Santa"
             return True
         if self.turno > self.rondas:
+            self.ganador="Rudolph"
             return True
         return False
 
